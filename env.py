@@ -17,7 +17,6 @@ class Environment:
         char.select_action()
 
 
-
     def work(self, char, action):
         if action == "farmer":
             self.farmer(char)

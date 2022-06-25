@@ -1,6 +1,6 @@
 
 
-# Aldea de  
+# Aldea de viaje
 
 Juego para aprender economía
 By AbyssalBit

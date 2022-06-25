@@ -54,5 +54,6 @@ ITEMS = {
     "iron": 0
 }
 
-HOMES = ["tent", "hut", "clay", "fort"]
-TOOLS = ["wood", "stone", "bronze", "iron"]
+HOMES = {"tent":1, "hut":2, "clay":3, "fort":4}
+
+TOOLS = {"tent":1, "hut":2, "clay":3, "fort":4}
