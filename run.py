@@ -6,9 +6,9 @@ from utils import (
     load_char
 )
 
-players_file = "test.txt"
+# players_file = "test.txt"
+players_file = "shorttest.txt"
 players = read_players(players_file)
 world = Environment(players)
-save_char(world.players[0])
-# world.players[0].save_char
-# world.env_day()
+
+world.run()

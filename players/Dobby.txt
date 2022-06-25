@@ -1,0 +1,10 @@
+name: Dobby 
+coins: 0.0 
+actions: 1 
+food: 1.0 
+home_lvl: 0 
+tool_lvl: 0 
+###
+
+{'farmer': 0, 'architect': 0, 'hunter': 0, 'blacksmith': 1}
+{'tent': 0, 'hut': 0, 'clay': 0, 'fort': 0, 'wood': 1.3341641506848352, 'stone': 0, 'bronze': 0, 'iron': 0}

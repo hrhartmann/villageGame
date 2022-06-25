@@ -11,7 +11,7 @@ class Food:
         self.quantity += x
 
     def eat(self, x):
-        return self.x*self.lvl
+        return self.quantity*self.lvl
 
     def drop(self, x):
         if x >= self.quantity:

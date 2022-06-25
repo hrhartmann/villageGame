@@ -27,7 +27,7 @@ def read_players(filename):
 
 def save_char(char):
     with open(f"players/{char.name}.txt", "w") as file:
-        data = str(char)
+        data = char.get_full_data()
         file.writelines(data)
 
 def load_char(name):

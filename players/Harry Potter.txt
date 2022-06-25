@@ -1,6 +1,11 @@
 name: Harry Potter 
 coins: 5.0 
-actions: 2 
+actions: 0 
 food: 0 
 home_lvl: 0 
 tool_lvl: 0 
+###
+berries lvl 0.5 quantity 1.3710159497035264
+
+{'farmer': 0, 'architect': 0, 'hunter': 0, 'blacksmith': 0}
+{'tent': 0, 'hut': 0, 'clay': 0, 'fort': 0, 'wood': 0, 'stone': 0, 'bronze': 0, 'iron': 0}

@@ -1,18 +1,32 @@
 
 import random
 
-from utils import select_option
+from utils import select_option, save_char
 from human import Human
 
 class Environment:
 
-    def __init__(self, players):
+    def __init__(self, players, days=0):
         self.players = [Human(name) for name in players]
-        self.days = 0
+        self.days = days
+
+    def run(self):
+        while self.check_alive_players():
+            self.env_day()
+
+    def check_alive_players(self):
+        for p in self.players:
+            if p.coma == False:
+                return True
+        return False
 
     def env_day(self):
+        self.days += 1
+        print("%%"*25)
+        print(f"Day: {self.days }")
         for player in self.players:
             self.day(player)
+            save_char(player)
 
     def day(self, char):
         while char.actions > 0:
@@ -21,6 +35,9 @@ class Environment:
                 self.work(char, act)
             elif sel == "sell":
                 self.sell(char)
+            elif sel == "buy":
+                self.buy(char)
+        char.sleep()
 
     def work(self, char, action):
         if action == "farmer":
@@ -47,7 +64,7 @@ class Environment:
             char.food_inv["berries"].quantity += collect
 
     def blacksmith(self, char):
-        prob = random.random() * (self.home_lvl + 1)
+        prob = random.random() * (char.home_lvl + 1)
         collect = prob
         if char.skills["blacksmith"] > 3:
             char.items["iron"] += collect
@@ -59,7 +76,7 @@ class Environment:
             char.items["wood"] += collect
 
     def architect(self, char):
-        prob = random.random() * (self.tool_lvl + 1)
+        prob = random.random() * (char.tool_lvl + 1)
         if (prob + .4) > 1:
             collect = True
         if collect:
@@ -121,7 +138,6 @@ class Environment:
             char.get_cash(price)
             return price
 
-
     def sell(self, char):
         what_to_sell = 0
         while what_to_sell == 0:
@@ -132,3 +148,32 @@ class Environment:
             self.sell_food(char)
         else:
             self.sell_item(char)
+
+    def buy_food(self, char):
+        try:
+            foodname = input("Type food name: ")
+            foodamount = input("Type quantity: ")
+            foodq = float(foodamount)
+            char.food_inv[foodname].quantity += foodq
+        except Exception as error:
+            print(error)
+
+    def buy_item(self, char):
+        try:
+            iname = input("Type item name: ")
+            iamount = input("Type quantity: ")
+            q = float(iamount)
+            char.items[iname] += q
+        except Exception as error:
+            print(error)
+
+    def buy(self, char):
+        what_to_buy = 0
+        while what_to_buy == 0:
+            print("1. food")
+            print("2. item")
+            what_to_buy = select_option(2)
+        if what_to_buy == 1:
+            self.buy_food(char)
+        else:
+            self.buy_item(char)

@@ -59,12 +59,13 @@ class Human:
         self.skills = SKILLS
         self.food_inv = FOOD
         self.items = ITEMS
-        self.coins = 5.0
+        self.coins = 10.0
         self.actions = 2
         self.home_lvl = 0
         self.tool_lvl = 0
-        self.food = 0
+        self.food = 3
         self.hungry = False
+        self.coma = False
 
     def __str__(self):
         txtdata = f"name: {self.name} \n"
@@ -74,8 +75,19 @@ class Human:
         txtdata += f"home_lvl: {self.home_lvl} \n"
         txtdata += f"tool_lvl: {self.tool_lvl} \n"
         if self.hungry:
-            txtdata += f"Hungry!!"
+            txtdata += "Hungry!!"
+        if self.coma:
+            txtdata += "In coma 💀"
         return txtdata
+
+    def get_full_data(self):
+        data = str(self)
+        data += str("###") + "\n"
+        data += self.show_food(show=False) + "\n"
+        data += str(self.skills) + "\n"
+        data += str(self.items) + "\n"
+        return data
+
 
     def eat(self, all=False):
         if self.any_food():
@@ -152,7 +164,7 @@ class Human:
 
     def get_cash(self, x, show=True):
         check_balance = self.coins + x
-        if check_balance > 0:
+        if check_balance >= 0:
             self.coins += x
             if show:
                 print(f"{self.name} got {x}, new balance: {self.coins}")
@@ -166,13 +178,17 @@ class Human:
         if self.food > 0:
             self.food -= 1
             self.actions = 1
-            self.actions += max([self.food, self.home_lvl])
-        elif self.food == 0:
+            extra_actions = min([self.food, self.home_lvl])
+            self.food -= extra_actions*.8
+            self.actions += extra_actions
+
+        elif self.food <= 0:
             self.eat(all=True)
             if self.hungry:
                 self.food -= 1
                 self.actions = 0
                 if self.food < -5:
+                    self.coma = True
                     print(f"{self.name} is in coma")
             else:
                 self.hungry = True
@@ -201,7 +217,7 @@ class Human:
 
     def select_action(self):
         self.show()
-        options_cap = 5
+        options_cap = 7
         print("Action options: ")
         print("1. work")
         print("2. sell")
@@ -209,6 +225,7 @@ class Human:
         print("4. level up skill")
         print("5. set home")
         print("6. set tool")
+        print("7. buy")
 
         action = 0
         while self.actions > 0:
@@ -238,14 +255,21 @@ class Human:
             elif action == 6:
                 self.set_tool()
                 return None, None
+            elif action == 7:
+                return "buy", None
             return None, None
 
 
-    def show_food(self):
-        print("Food: ")
+    def show_food(self, show=True):
+        if show:
+            print("Food: ")
+        food_data = ""
         for food in self.food_inv.values():
             if food.quantity > 0:
-                print(food)
+                food_data += str(food) + "\n"
+                if show:
+                    print(food)
+        return food_data
 
     def show_items(self):
         print("Items: ")
@@ -254,10 +278,18 @@ class Human:
             if q:
                 print(item, q)
 
+    def show_skills(self):
+        print("Skills:")
+        for skill in self.skills:
+            skill_lvl = self.skills[skill]
+            if skill_lvl > 0:
+                print(f"{skill}: {skill_lvl}")
+
     def show(self):
         print()
         print("##"*25)
         print(self)
+        self.show_skills()
         self.show_food()
         self.show_items()
 
