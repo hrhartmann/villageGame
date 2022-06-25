@@ -114,6 +114,24 @@ class Human:
                     choose_food = r
         return self.food_inv[choose_food]
 
+    def select_item(self):
+        self.show_items()
+        choose_item = ""
+        item_options = []
+        while choose_item == "":
+            for item in self.items.keys():
+                val = self.items[item]
+                if val > 0:
+                    item_options.append(item)
+            r = input("type food name: ")
+            if item_options:
+                if r in item_options:
+                    choose_item = r
+        return self.food_inv[choose_food]
+
+    def sell_food(self, food, q):
+        self.food_inv[food.name].drop(q)
+
     def set_home(self):
         h = select_open_option(HOMES.keys())
         if self.items[h]:
@@ -190,34 +208,37 @@ class Human:
         print("3. eat")
         print("4. level up skill")
         print("5. set home")
-        print("6. sleep")
-        print("7. sleep")
+        print("6. set tool")
+
         action = 0
         while self.actions > 0:
             action = select_option(options_cap)
-
-        if action == 1:
-            work = self.select_work()
-            self.actions -= 1
-            return "work", work
-        elif action == 2:
-            self.actions -= 1
-            return "sell"
-        elif action == 3:
-            eat_all = False
-            r = input("all? (y)")
-            if r == "y":
-                eat_all=True
-            return self.eat(all=eat_all)
-        elif action == 4:
-            self.actions -= 1
-            skill = self.select_work(work_cap=-1)
-            level_up(self, skill)
-            return "sell"
-        elif action == 5:
-            return "sell"
-        elif action == 6:
-            return "sell"
+            if action == 1:
+                work = self.select_work()
+                self.actions -= 1
+                return "work", work
+            elif action == 2:
+                self.actions -= 1
+                return "sell", None
+            elif action == 3:
+                eat_all = False
+                r = input("all? (y)")
+                if r == "y":
+                    eat_all=True
+                self.eat(all=eat_all)
+                return None, None
+            elif action == 4:
+                self.actions -= 1
+                skill = self.select_work(work_cap=-1)
+                level_up(self, skill)
+                return None, None
+            elif action == 5:
+                self.set_home()
+                return None, None
+            elif action == 6:
+                self.set_tool()
+                return None, None
+            return None, None
 
 
     def show_food(self):
@@ -240,7 +261,12 @@ class Human:
         self.show_food()
         self.show_items()
 
-
+if __name__ == "__main__":
+    player = Human("Hans")
+    player.coins += 100
+    player.select_action()
+    player = Human("Rena")
+    player.select_action()
 
 
 
@@ -288,12 +314,7 @@ class Human:
 
 
 
-if __name__ == "__main__":
-    player = Human("Hans")
-    player.coins += 100
-    player.select_action()
-    player = Human("Rena")
-    player.select_action()
+
 
 
 
