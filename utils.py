@@ -24,3 +24,12 @@ def read_players(filename):
         for line in file:
             players.append(line.strip("\n"))
     return players
+
+def save_char(char):
+    with open(f"players/{char.name}.txt", "w") as file:
+        data = str(char)
+        file.writelines(data)
+
+def load_char(name):
+    with open(f"players/{name}.txt", "r") as file:
+        pass

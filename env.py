@@ -8,6 +8,7 @@ class Environment:
 
     def __init__(self, players):
         self.players = [Human(name) for name in players]
+        self.days = 0
 
     def env_day(self):
         for player in self.players:
@@ -20,8 +21,6 @@ class Environment:
                 self.work(char, act)
             elif sel == "sell":
                 self.sell(char)
-
-
 
     def work(self, char, action):
         if action == "farmer":

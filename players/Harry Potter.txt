@@ -1,0 +1,6 @@
+name: Harry Potter 
+coins: 5.0 
+actions: 2 
+food: 0 
+home_lvl: 0 
+tool_lvl: 0 
